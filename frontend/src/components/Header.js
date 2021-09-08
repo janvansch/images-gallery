@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar } from 'react-bootstrap';
+import { Navbar, Container } from 'react-bootstrap';
 
 // const Header = (props) => { // props is an object
 //     return (
@@ -11,8 +11,10 @@ import { Navbar } from 'react-bootstrap';
 
 const Header = ({ title }) => { // with destructuring
     return (
-        <Navbar bg="primary" variant="dark">
-            <Navbar.Brand href="/">{title}</Navbar.Brand>
+        <Navbar bg="dark" variant="dark">
+            <Container>
+                <Navbar.Brand href="/">{title}</Navbar.Brand>
+            </Container>
         </Navbar>
     )
 };
