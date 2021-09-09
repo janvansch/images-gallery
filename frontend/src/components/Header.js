@@ -9,15 +9,15 @@ import { Navbar, Container } from 'react-bootstrap';
 //     )
 // };
 
-const Header = ({ title }) => { // with destructuring
-    return (
-        <Navbar bg="dark" variant="dark">
-            <Container>
-                <Navbar.Brand href="/">{title}</Navbar.Brand>
-            </Container>
-        </Navbar>
-    )
+const Header = ({ title }) => {
+  // with destructuring
+  return (
+    <Navbar bg="dark" variant="dark">
+      <Container>
+        <Navbar.Brand href="/">{title}</Navbar.Brand>
+      </Container>
+    </Navbar>
+  );
 };
 
 export default Header;
-
