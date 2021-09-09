@@ -14,9 +14,10 @@ const App = () => {
     e.preventDefault();
     console.log(word);
     fetch(`https://api.unsplash.com/photos/random/?query=${word}&client_id=${UNSPLASH_KEY}`)
-      .then((res) => res.json())
-      .then((data) => {
+      .then((res) => res.json()) // call utility function
+      .then((data) => { // call defined function
         console.log(data);
+        setWord('')
       })
       .catch((err) => {
         console.log(err);
