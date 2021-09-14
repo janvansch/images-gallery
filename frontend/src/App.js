@@ -31,6 +31,7 @@ const App = () => {
   };
 
   const handleDeleteImage = (id) => {
+    // filter out image if it's id equals id param value
     setImages(images.filter((image) => image.id !== id)); // implicit return
     // Filter returns new array
   };
