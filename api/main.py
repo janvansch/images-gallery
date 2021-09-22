@@ -7,11 +7,14 @@ load_dotenv(dotenv_path="./.env.local")
 
 UNSPLASH_URL="http://api.unsplash.com/photos/random"
 UNSPLASH_KEY =os.environ.get("UNSPLASH_KEY", "")
+MODE = os.environ.get("MODE", "")
 
 if not UNSPLASH_KEY:
     raise EnvironmentError("UNSPLASH access key required! (.env.local file with UNSPLASH_KEY environment variable)")
 
 app = Flask(__name__)
+
+app.config["DEBUG"] = True if MODE == "dev" else False
 
 @app.route("/")
 def hello():
