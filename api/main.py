@@ -12,7 +12,7 @@ MODE = os.environ.get("MODE", "")
 
 if not UNSPLASH_KEY:
     raise EnvironmentError(
-        "UNSPLASH access key required! (.env.local file with UNSPLASH_KEY environment variable)"
+        "UNSPLASH access key required! (.env.local file with UNSPLASH_KEY)"
     )
 
 app = Flask(__name__)
@@ -26,7 +26,7 @@ def hello():
     return "From Flask on RPi: Hello, World!"
 
 
-@app.route("/new-image")  ## only GET is allowed
+@app.route("/new-image")  # only GET is allowed
 def new_image():
     word = request.args.get("query")
     headers = {"Accept-Version": "v1", "Authorization": "Client-ID " + UNSPLASH_KEY}
