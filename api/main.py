@@ -18,6 +18,7 @@ if not UNSPLASH_KEY:
 app = Flask(__name__)
 CORS(app)
 
+# Set debug if in development mode
 app.config["DEBUG"] = True if MODE == "dev" else False
 
 
