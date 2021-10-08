@@ -46,6 +46,25 @@ const App = () => {
     // Filter returns new array
   };
 
+  const handleSaveImage = async (id) => {
+    const imageToBeSaved = images.find((image) => image.id === id);
+    // in images array find an image with an image id equal to id parameter value
+    imageToBeSaved.saved = true;
+    try {
+      const res = await axios.post(`${API_URL}/images`, imageToBeSaved); // Axios will convert the data to JSON
+      if (res.data?.inserted_id) {
+        setImages(
+          images.map(
+            (image) => (image.id === id ? { ...image, saved: true } : image)
+            // if image id equals param id add saved: true property to all other properties else return image
+          )
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div>
       <Header title="Images Gallery" />
@@ -56,7 +75,11 @@ const App = () => {
             {images.map((image, i) => (
               // Arrow function with implicit return of an array of image cards with key = index i
               <Col key={i} className="pb-3">
-                <ImageCard image={image} deleteImage={handleDeleteImage} />
+                <ImageCard
+                  image={image}
+                  deleteImage={handleDeleteImage}
+                  saveImage={handleSaveImage}
+                />
               </Col>
             ))}
           </Row>
