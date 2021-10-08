@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header'; // {} not required as this is a default export
@@ -16,15 +16,28 @@ const App = () => {
   const [word, setWord] = useState('');
   const [images, setImages] = useState([]);
 
+  const getSavedImages = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/images`);
+      setImages(res.data || []); // Set images array equal to array returned from DB or to empty array
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => getSavedImages(), []); // Because array is empty useEffect will only trigger on initial render
+
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const res = await axios.get(`${API_URL}/new-image?query=${word}`);
       setImages([{ ...res.data, title: word }, ...images]); // Adding title = word to data object
-    } catch {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
+
+    setWord('');
   };
 
   const handleDeleteImage = (id) => {
