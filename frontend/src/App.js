@@ -36,14 +36,20 @@ const App = () => {
     } catch (error) {
       console.log(error);
     }
-
     setWord('');
   };
 
-  const handleDeleteImage = (id) => {
-    // filter out image if it's id equals id param value
-    setImages(images.filter((image) => image.id !== id)); // implicit return
-    // Filter returns new array
+  const handleDeleteImage = async (id) => {
+    try {
+      const res = await axios.delete(`${API_URL}/images/${id}`);
+      if (res.data?.deleted_id === id) {
+        // filter out image if it's id equals id param value
+        setImages(images.filter((image) => image.id !== id)); // implicit return
+        // Filter returns new array
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleSaveImage = async (id) => {
