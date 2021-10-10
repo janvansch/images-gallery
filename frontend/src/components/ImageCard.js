@@ -23,6 +23,7 @@ const ImageCard = ({ image, deleteImage, saveImage }) => {
       <Card.Footer className="text-center text-muted">
         {authorPortfolioURL && (
           <Nav.Link href={authorPortfolioURL} target="_blank">
+            {/* open in new window */}
             {authorName}
           </Nav.Link>
         )}

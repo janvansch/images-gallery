@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './components/Header'; // {} not required as this is a default export
 import Search from './components/Search';
@@ -23,8 +25,10 @@ const App = () => {
       const res = await axios.get(`${API_URL}/images`);
       setImages(res.data || []); // Set images array equal to array returned from DB or to empty array
       setLoading(false);
+      toast.success('Saved images downloaded');
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -36,8 +40,10 @@ const App = () => {
     try {
       const res = await axios.get(`${API_URL}/new-image?query=${word}`);
       setImages([{ ...res.data, title: word }, ...images]); // Adding title = word to data object
+      toast.info(`New image ${word.toUpperCase()} was found`);
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
     setWord('');
   };
@@ -46,12 +52,18 @@ const App = () => {
     try {
       const res = await axios.delete(`${API_URL}/images/${id}`);
       if (res.data?.deleted_id === id) {
+        toast.success(
+          `Image ${images
+            .find((i) => i.id === id)
+            .title.toUpperCase()} was removed from DB`
+        );
         // filter out image if it's id equals id param value
         setImages(images.filter((image) => image.id !== id)); // implicit return
         // Filter returns new array
       }
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -68,9 +80,11 @@ const App = () => {
             // if image id equals param id add saved: true property to all other properties else return image
           )
         );
+        toast.success(`Image ${imageToBeSaved.title.toUpperCase()} was saved`);
       }
     } catch (error) {
       console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -106,6 +120,7 @@ const App = () => {
           </Container>{' '}
         </>
       )}
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };
