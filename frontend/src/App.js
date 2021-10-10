@@ -5,6 +5,7 @@ import Header from './components/Header'; // {} not required as this is a defaul
 import Search from './components/Search';
 import ImageCard from './components/ImageCard';
 import Welcome from './components/Welcome';
+import Spinner from './components/Spinner';
 import { Container, Row, Col } from 'react-bootstrap';
 
 //const UNSPLASH_KEY = process.env.REACT_APP_UNSPLASH_KEY;
@@ -15,11 +16,13 @@ const App = () => {
   // a function to update the stateful value
   const [word, setWord] = useState('');
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getSavedImages = async () => {
     try {
       const res = await axios.get(`${API_URL}/images`);
       setImages(res.data || []); // Set images array equal to array returned from DB or to empty array
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -74,25 +77,35 @@ const App = () => {
   return (
     <div>
       <Header title="Images Gallery" />
-      <Search word={word} setWord={setWord} handleSubmit={handleSearchSubmit} />
-      <Container className="mt-4">
-        {images.length ? (
-          <Row xs={1} md={2} lg={3}>
-            {images.map((image, i) => (
-              // Arrow function with implicit return of an array of image cards with key = index i
-              <Col key={i} className="pb-3">
-                <ImageCard
-                  image={image}
-                  deleteImage={handleDeleteImage}
-                  saveImage={handleSaveImage}
-                />
-              </Col>
-            ))}
-          </Row>
-        ) : (
-          <Welcome />
-        )}
-      </Container>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <>
+          <Search
+            word={word}
+            setWord={setWord}
+            handleSubmit={handleSearchSubmit}
+          />
+          <Container className="mt-4">
+            {images.length ? (
+              <Row xs={1} md={2} lg={3}>
+                {images.map((image, i) => (
+                  // Arrow function with implicit return of an array of image cards with key = index i
+                  <Col key={i} className="pb-3">
+                    <ImageCard
+                      image={image}
+                      deleteImage={handleDeleteImage}
+                      saveImage={handleSaveImage}
+                    />
+                  </Col>
+                ))}
+              </Row>
+            ) : (
+              <Welcome />
+            )}
+          </Container>{' '}
+        </>
+      )}
     </div>
   );
 };
